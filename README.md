@@ -10,14 +10,23 @@ An exercise PHP MVC for simple student management.
 
 ```
 student_management/
-  app/
-    Config/config.php       # DB credentials
-    Controllers/StudentController.php
-    Core/DB.php             # PDO wrapper (pdo, querySql, excSql)
-    Models/StudentModel.php
-    Models/FacultyModel.php
-    Views/students/         # index, create, edit, delete
-  index.php                 # Front controller (router)
+├── app/
+│   ├── Config/
+│   │   └── config.php           # DB credentials
+│   ├── Controllers/
+│   │   └── StudentController.php
+│   ├── Core/
+│   │   └── DB.php               # PDO wrapper (pdo, querySql, excSql)
+│   ├── Models/
+│   │   ├── StudentModel.php
+│   │   └── FacultyModel.php
+│   └── Views/
+│       └── students/
+│           ├── index.php
+│           ├── create.php
+│           ├── edit.php
+│           └── delete.php
+└── index.php                    # Front controller (router)
 ```
 
 ### Database setup
