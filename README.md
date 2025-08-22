@@ -15,17 +15,21 @@ student_management/
 │   │   └── config.php           # DB credentials
 │   ├── Controllers/
 │   │   └── StudentController.php
+│   │   └── AuthController.php
 │   ├── Core/
 │   │   └── DB.php               # PDO wrapper (pdo, querySql, excSql)
 │   ├── Models/
 │   │   ├── StudentModel.php
 │   │   └── FacultyModel.php
+|   |   └── UserModel.php
 │   └── Views/
 │       └── students/
 │           ├── index.php
 │           ├── create.php
 │           ├── edit.php
 │           └── delete.php
+|       └── auth/
+|           └── login.php
 └── index.php                    # Front controller (router)
 ```
 
@@ -53,6 +57,13 @@ CREATE TABLE students (
   CONSTRAINT fk_students_faculty FOREIGN KEY (khoa_id)
     REFERENCES faculties(id) ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 ```
 
 3) (Optional) Seed example data:
@@ -64,6 +75,9 @@ INSERT INTO faculties (ma_khoa, ten_khoa) VALUES
 INSERT INTO students (ma_sv, ho_ten, gioi_tinh, khoa_id) VALUES
   ('SV001', 'Nguyễn Văn A', 'Nam', 1),
   ('SV002', 'Trần Thị B', 'Nữ', 2);
+
+INSERT INTO users (username, password) VALUES 
+('admin', '123456');
 ```
 
 ### Configure database connection
