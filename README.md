@@ -1,6 +1,5 @@
 ## Student Management (PHP MVC, XAMPP)
-
-
+An exercise PHP MVC for simple student management.
 ### Requirements
 
 - PHP 7.4+ (XAMPP recommended)
