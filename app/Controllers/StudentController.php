@@ -29,6 +29,39 @@ class StudentController
         $faculties = $this->FacultyModel->all();
         require __DIR__ . '/../Views/students/create.php';
     }
+        public function store($data){
+        $errors = [];
+        if (empty($data['ma_sv'])) {
+            $errors[] = 'Vui lòng nhập mã sinh viên';
+        }
+        if (empty($data['ho_ten'])) {
+            $errors[] = 'Vui lòng nhập họ và tên';
+        }
+        if (empty($data['gioi_tinh'])) {
+            $errors[] = 'Vui lòng chọn giới tính';
+        }
+        if (empty($data['khoa_id'])) {
+            $errors[] = 'Vui lòng chọn khoa';
+        }
+
+        if (empty($errors)) {
+            $existStudent = $this->StudentModel->find($data['ma_sv']);
+            if ($existStudent) {
+                $errors[] = 'Mã sinh viên đã tồn tại';
+            }
+        }
+
+        if (!empty($errors)) {
+            $faculties = $this->FacultyModel->all();
+            $old = $data;
+            require __DIR__ . '/../Views/students/create.php';
+            return;
+        }
+
+        $this->StudentModel->create($data);
+        header('Location: index.php');
+        exit;
+    }
     //Sửa thông tin sinh viên
     public function edit(){
         $maSv = $_GET['ma_sv'] ?? null;
@@ -104,37 +137,5 @@ class StudentController
         header('Location:index.php');
         exit;
     }
-    public function store($data){
-        $errors = [];
-        if (empty($data['ma_sv'])) {
-            $errors[] = 'Vui lòng nhập mã sinh viên';
-        }
-        if (empty($data['ho_ten'])) {
-            $errors[] = 'Vui lòng nhập họ và tên';
-        }
-        if (empty($data['gioi_tinh'])) {
-            $errors[] = 'Vui lòng chọn giới tính';
-        }
-        if (empty($data['khoa_id'])) {
-            $errors[] = 'Vui lòng chọn khoa';
-        }
 
-        if (empty($errors)) {
-            $existStudent = $this->StudentModel->find($data['ma_sv']);
-            if ($existStudent) {
-                $errors[] = 'Mã sinh viên đã tồn tại';
-            }
-        }
-
-        if (!empty($errors)) {
-            $faculties = $this->FacultyModel->all();
-            $old = $data;
-            require __DIR__ . '/../Views/students/create.php';
-            return;
-        }
-
-        $this->StudentModel->create($data);
-        header('Location: index.php');
-        exit;
-    }
 }
