@@ -1,39 +1,63 @@
 <?php
 require_once __DIR__ . '/app/Controllers/StudentController.php';
+require_once __DIR__ . '/app/Controllers/AuthController.php';
 
-$controller = new StudentController();
+$authController = new AuthController();
+$studentController = new StudentController();
 
-// Lấy URL từ query
+function checkAuth() {
+    session_start();
+    if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+        header('Location: index.php?action=login');
+        exit;
+    }
+}
+
 $action = $_GET['action'] ?? 'index';
 
+$publicActions = ['login', 'authenticate'];
+
+if (!in_array($action, $publicActions)) {
+    checkAuth();
+}
+
 switch ($action) {
+    case 'login':
+        $authController->login();
+        break;
+    case 'authenticate':
+        $authController->authenticate();
+        break;
+    case 'logout':
+        $authController->logout();
+        break;
     case 'create':
-        $controller->create();
+        $studentController->create();
         break;
     case 'edit':
-        $controller->edit();
+        $studentController->edit();
         break;
     case 'update':
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $controller->update($_POST);
+            $studentController->update($_POST);
         }
         break;
     case 'store':
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $controller->store($_POST);
+            $studentController->store($_POST);
         }
         break;
     case 'delete':
         if (isset($_GET['ma_sv'])) {
-            $controller->delete($_GET['ma_sv']);
+            $studentController->delete($_GET['ma_sv']);
         }
         break;
     case 'destroy':
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $controller->destroy($_POST);
+            $studentController->destroy($_POST);
         }
         break;
     default:
-        $controller->index();
+        $studentController->index();
         break;
 }
