@@ -17,8 +17,6 @@ student_management/
     Models/StudentModel.php
     Models/FacultyModel.php
     Views/students/         # index, create, edit, delete
-  public/
-    css/, js/
   index.php                 # Front controller (router)
 ```
 
